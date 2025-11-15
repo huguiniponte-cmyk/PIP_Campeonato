@@ -13,6 +13,6 @@ Esta organização é fundamental para não misturarmos tudo:
 
 /docs: (Para já está vazia) É onde podemos guardar documentação extra, como diagramas de fluxo, etc.
 
-Makefile: Este é o ficheiro que o professor vai usar para compilar o nosso projeto. O Pablo também o vai usar para compilar tudo automaticamente, em vez de o fazer à mão.
+Makefile: Este é o ficheiro que o professor vai usar para compilar o nosso projeto. 
 
 README.md: É a "página de rosto" do nosso projeto.
