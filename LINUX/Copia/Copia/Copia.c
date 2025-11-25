@@ -33,7 +33,7 @@ int proximoID = 1;
 //função para salvar o projeto quando selecionarmos a opção 6 na main()
 void salvarDados()
 {
-    FILE* arquivo = fopen("equipas.txt", "w");  //abre o arquivo e escreve
+    FILE* arquivo = fopen("equipe.txt", "w");  //abre o arquivo e escreve
     if (arquivo == NULL)
     {
         printf("                       ❌ ERRO AO CRIAR ARQUIVO!\n");
@@ -42,16 +42,16 @@ void salvarDados()
     for (int i = 0; i < totalEquipas; i++)
     {
         fprintf(arquivo, "%d | %s\n", equipas[i].id, equipas[i].nome);
-    }  
+    }
     fclose(arquivo);
 
-    printf("\n\n                        ✅ %d equipas salvas em 'equipas.txt'.\n\n", totalEquipas);
+    printf("\n\n                        ✅ %d equipas salvas em 'equipe.txt'.\n\n", totalEquipas);
     sleep(3); // Alterado de Sleep(3000) para sleep(3)
 }
 //função para carregar dados (é ativa automaticamente quando se inicia o programa na main())
 void carregarDados()
 {
-    FILE* arquivo = fopen("equipas.txt", "r"); //abre o arquivo e le
+    FILE* arquivo = fopen("equipe.txt", "r"); //abre o arquivo e le
     if (arquivo == NULL)
     {
         printf("                       ❌ FICHEIRO NÃO ENCONTRADO!\n");
@@ -69,7 +69,7 @@ void carregarDados()
 
         if (sscanf(linha, "%d | %49[^\n]", &id, nomeTime) == 2)
         {
-            if(totalEquipas < 50)
+            if (totalEquipas < 50)
             {
                 equipas[totalEquipas].id = id;
                 strcpy(equipas[totalEquipas].nome, nomeTime);
@@ -78,7 +78,7 @@ void carregarDados()
 
                 if (id >= proximoID)
                 {
-                    proximoID= id + 1;
+                    proximoID = id + 1;
                 }
             }
         }
@@ -92,7 +92,7 @@ void carregarDados()
         printf("\n\n\n                          ✅ %d equipas carregadas!\n", linhasCarregadas);
 
     }
-    else 
+    else
     {
         printf("                                ❗ Ficheiro vazio.\n");
 
@@ -103,14 +103,13 @@ void carregarDados()
 
 }
 
-
- 
-
 //limpa a tela
 void limparTela()
 {
     system("clear"); // Alterado de "cls" para "clear"
 }
+
+
 
 //criei funções para os menus de navegação
 
@@ -151,7 +150,8 @@ void menuGerirEquipas()
     printf("                            ╚═══════════════════════════╝\n\n\n");
     printf("                              ┎━─━─━━──━─━─━─━─━─━─━─━┒                          \n");
     printf("                                1 - CADASTRAR EQUIPA                             \n");
-    printf("                                2 - LISTAR EQUIPAS                               \n");
+    printf("                                2 - APAGAR EQUIPA                               \n");
+    printf("                                3 - LISTAR EQUIPAS                               \n");
     printf("                                0 - VOLTAR                                       \n");
     printf("                              ┖━──━─━─━─━─━─━─━─━─━─━─┚                          \n\n");
 }
@@ -202,7 +202,7 @@ void cadastrarEquipa()
                 equipas[totalEquipas].id = proximoID;
                 strcpy(equipas[totalEquipas].nome, equipaNome);
                 totalEquipas++;
-                proximoID++; 
+                proximoID++;
 
                 printf("\n\n                          ✅ Equipa cadastrada com sucesso!\n");
                 printf("                                      AGUARDE....\n");
@@ -217,7 +217,7 @@ void cadastrarEquipa()
             }
             else {
                 tentarNovamente = 0;
-                printf("Cancelando...\n");
+                printf("                                     Cancelando...\n");
                 sleep(2); // Alterado de Sleep(2000) para sleep(2)
             }
         }
@@ -228,6 +228,97 @@ void cadastrarEquipa()
     }
 }
 
+void apagarEquipa()
+{
+
+    if (totalEquipas == 0)
+    {
+        printf("                       ❌ Nenhuma equipa cadastrada!\n\n");
+        return;
+    }
+
+    int removerId;
+    int posicaoId;
+
+    do {
+        limparTela();
+        {
+            printf("\n\n");
+            printf("                            ╔══════════════════════════╗\n");
+            printf("                                   REMOVER EQUIPA       \n");
+            printf("                            ╚══════════════════════════╝\n\n");
+            printf("                              [0] VOLTAR           \n\n");
+            printf("                              Equipas Cadastradas:      \n\n");
+
+            for (int i = 0; i < totalEquipas; i++)
+            {
+                printf("                              %d ➤  %s\n", equipas[i].id, equipas[i].nome);
+            }
+
+
+
+
+            printf("\n\n                      Informe o ID da equipa que deseja remover: ");
+            scanf("%d", &removerId);
+            printf("\n\n");
+
+            if (removerId == 0)
+            {
+                return;
+            }
+            posicaoId = -1;
+
+
+            for (int i = 0; i < totalEquipas; i++)
+            {
+                if (equipas[i].id == removerId)
+                {
+
+                    posicaoId = i;
+                    break;
+                }
+            }
+            if (posicaoId == -1)
+            {
+
+                printf("                            ❌ Equipa não encontrada!\n\n");
+                sleep(2);
+                printf("                        Pressione Enter para tentar novamente....\n\n");
+                while (getchar() != '\n');
+                getchar();
+            }
+
+        }
+    } while (posicaoId == -1);
+
+
+    int confirmar;
+
+    printf("\n                                   REMOVER EQUIPA?\n\n");
+
+    printf("                              [1] CONFIRMAR  [0] VOLTAR\n\n");
+    printf("                             ➤  ");
+    scanf("%d", &confirmar);
+    printf("\n\n");
+
+    if (confirmar == 1)
+    {
+        for (int i = posicaoId; i < totalEquipas - 1; i++)
+        {
+            equipas[i] = equipas[i + 1];
+        }
+        totalEquipas--;
+
+        printf("\n\n                          ✅ equipa removida com sucesso.\n\n");
+    }
+    else {
+        printf("                             ❌ Cancelado!\n\n");
+    }
+    sleep(2);
+
+}
+    
+
 // Mostra menu de gestão de equipas
 void gerirEquipas()
 {
@@ -236,10 +327,12 @@ void gerirEquipas()
         menuGerirEquipas();
         printf("                              Selecione uma opção ➤  ");
 
-        while (scanf("%d", &opcaoGest) != 1 || opcaoGest < 0 || opcaoGest > 2)
+        while (scanf("%d", &opcaoGest) != 1 || opcaoGest < 0 || opcaoGest > 3)
         {
             menuGerirEquipas();
             printf("                              Digite uma opção válida!\n\n");
+            while (getchar() != '\n');
+            continue;
             printf("                              Selecione uma opção ➤  ");
             while (getchar() != '\n');
         }
@@ -251,6 +344,9 @@ void gerirEquipas()
             cadastrarEquipa();
             break;
         case 2:
+            apagarEquipa();
+            break;
+        case 3:
             limparTela();
             printf("\n\n");
             printf("                            ╔═══════════════════════════╗\n");
@@ -281,7 +377,7 @@ void gerirEquipas()
 int main()
 
 {
-    carregarDados(); 
+    carregarDados();
 
     int opcaoMenu;
 
@@ -299,14 +395,14 @@ int main()
         switch (opcaoMenu)
         {
         case 0:
-        
+
             printf("                          Finalizando o programa...\n");
             sleep(2);
             limparTela();
             printf("\n\n                          Pressione Enter para continuar...\n\n");
-          
+
             while (getchar() != '\n');
-            getchar(); 
+            getchar();
             break;
 
         case 1:
