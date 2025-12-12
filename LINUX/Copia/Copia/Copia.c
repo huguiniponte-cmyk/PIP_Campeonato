@@ -20,7 +20,16 @@ typedef struct
 
 typedef struct
 {
+    Jogo jogos[100];          // suporte para até 100 jogos (ajuste conforme fase)
+    int totalJogos = 0;
+    int proximoIDJogo = 1;
     int id;
+    int idEquipaCasa;
+    int idEquipaFora;
+    int golosCasa;
+    int golosFora;
+    int Finalizado; //Campo finalizado permite filtrar só jogos válidos nas estatísticas
+    char data[11]; //facilita uma eventual explroacao de jornadas ou cronologia
     char Equipa[50];
 }Jogos;
 
@@ -448,4 +457,5 @@ int main()
 //pode ser de eliminação direto pra já (mais facil)
 //igual a copa do mundo por exemplo
 //muito mais facil
+
 
