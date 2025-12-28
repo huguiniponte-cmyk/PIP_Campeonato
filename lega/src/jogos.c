@@ -527,7 +527,7 @@ void determinarVencedor(void) {
             if(equipas[e].id == jogos[i].id_vencedor) strcpy(nomeCampeao, equipas[e].nome);
         }
         printf("\n****************************************************************\n");
-        printf("                       CAMPEÃO DO TORNEIO: %s   \n", nomeCampeao);
+        printf("                       CAMPEÃO DO CAMPEONATO: %s   \n", nomeCampeao);
         printf("****************************************************************\n");
     }
 }
@@ -790,3 +790,4 @@ void listarArvoreCompleta(void) {
     printf("==============================================\n");
 
 }
+
