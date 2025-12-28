@@ -13,13 +13,6 @@ int totalEquipas = 0;
 int proximoID = 1;
 
 
-
-//limpa a tela
-void limparTela()
-{
-    system("clear"); // Alterado de "cls" para "clear"
-}
-
 void menuGerirEquipas()
 {
     limparTela();
@@ -81,6 +74,8 @@ void cadastrarEquipa()
                 strcpy(equipas[totalEquipas].nome, equipaNome);
                 totalEquipas++;
                 proximoID++;
+
+                salvarDados();
 
                 printf("\n\n                          ✅ Equipa cadastrada com sucesso!\n");
                 printf("                                      AGUARDE....\n");
@@ -191,6 +186,8 @@ void apagarEquipa()
         }
         totalEquipas--;
 
+        salvarDados();//Adicionado para gravar as equipas
+
         printf("\n\n                          ✅ equipa removida com sucesso.\n\n");
     }
     else {
@@ -253,4 +250,59 @@ void gerirEquipas()
             printf("Saindo.\n");
         }
     } while (opcaoGest != 0);
+}
+
+void salvarDados(void) {
+    FILE *f = fopen("data/equipas.txt", "w"); // "w" para sobrescrever o ficheiro antigo
+    if (f == NULL) {
+        printf("\n[Erro] Não foi possível abrir data/equipas.txt para gravar!\n");
+        return;
+    }
+
+    for (int i = 0; i < totalEquipas; i++) {
+        // Usando EXATAMENTE os nomes da sua struct:
+        // id;nome;isenta;golosMarcados;golosSofridos;saldoGolos;fase_eliminada
+        fprintf(f, "%d;%s;%d;%d;%d;%d;%d\n", 
+                equipas[i].id, 
+                equipas[i].nome, 
+                equipas[i].isenta, 
+                equipas[i].golosMarcados, 
+                equipas[i].golosSofridos, 
+                equipas[i].saldoGolos,
+                equipas[i].fase_eliminada);
+    }
+
+    fclose(f);
+}
+
+void carregarDados(void) {
+    FILE *f = fopen("data/equipas.txt", "r");
+    if (f == NULL) {
+        printf("\n[Aviso] Ficheiro data/equipas.txt não encontrado. Iniciando vazio.\n");
+        return;
+    }
+
+    totalEquipas = 0;
+    // Lê os 7 campos exatamente como gravados no salvarDados
+    // O formato %49[^;] lê o nome até encontrar o próximo ponto e vírgula
+    while (fscanf(f, "%d;%49[^;];%d;%d;%d;%d;%d\n", 
+           &equipas[totalEquipas].id, 
+           equipas[totalEquipas].nome, 
+           &equipas[totalEquipas].isenta, 
+           &equipas[totalEquipas].golosMarcados, 
+           &equipas[totalEquipas].golosSofridos, 
+           &equipas[totalEquipas].saldoGolos,
+           &equipas[totalEquipas].fase_eliminada) != EOF) {
+        
+        totalEquipas++;
+    }
+
+    fclose(f);
+
+    // Ajusta o proximoID para não duplicar IDs já existentes
+    if (totalEquipas > 0) {
+        proximoID = equipas[totalEquipas - 1].id + 1;
+    }
+
+    //printf("\n[Sistema] %d equipas carregadas com sucesso!\n", totalEquipas);
 }
