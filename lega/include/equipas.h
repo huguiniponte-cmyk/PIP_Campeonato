@@ -5,6 +5,11 @@ typedef struct
 {
     int id;
     char nome[50];
+    int isenta; // 0 = joga nesta fase, 1 = isenta (avança direto) - Adicionado por Annaisa
+    int golosMarcados;    // Necessário para armazenar 
+    int golosSofridos;    // os dados acumulados no 
+    int saldoGolos;       // campeonato 
+    int fase_eliminada; // Útil para (classificação final) - Adicionado por Annaisa
 }Equipa;
 
 extern Equipa equipas[16];
@@ -17,9 +22,10 @@ void menuGerirEquipas();
 void gerirEquipas();
 void cadastrarEquipa();
 void apagarEquipa();
+void salvarDados(); //Declação da função para que o lega.c também a conheça
 
-// Mostra menu de gest�o de equipas
+void carregarDados(void);
 
-
+void limparTela(void); //Adicionado por Annaisa
 
 #endif 
