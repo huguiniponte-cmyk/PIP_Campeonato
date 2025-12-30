@@ -43,26 +43,34 @@ void menuGerirJogos(void) {
     int opcao;
 
     do {
-        printf("\n======================== GESTÃO DE JOGOS ========================\n");
-        printf("               1. Gerar Jogos da Fase (Sorteio)\n"); 
-        printf("               2. Registar Resultados de Jogos\n");            
-        printf("               3. Listar Árvore do Campeonato\n");
-        printf("               0. Voltar ao Menu Principal\n");
-        printf("               Escolha uma opção: ");
+        limparTela();
+        printf("                 ╔══════════════════════════════════════════╗\n");
+        printf("                               GESTÃO DE JOGOS               \n");
+        printf("                 ╚══════════════════════════════════════════╝\n\n");
+        printf("                    ┎─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┒   \n");
+        printf("                      1. Gerar Jogos da Fase (Sorteio)       \n"); 
+        printf("                      2. Registar Resultados de Jogos        \n");            
+        printf("                      3. Listar Árvore do Campeonato         \n");
+        printf("                      0. Voltar ao Menu Principal            \n");
+        printf("                    ┖─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┚   \n");
+
+
+        printf("                          Selecione uma opção ➤  ");
         scanf("%d", &opcao);
 
         switch(opcao) {
             case 1:
                 //Proteção caso já haja campeonato em andamento
                 if (sorteioRealizado == 1) {
+                    limparTela();
                     int confirma;
-                    printf("\n==============================================");
-                    printf("\n           CAMPEONATO EM ANDAMENTO!           ");
-                    printf("\n==============================================");
-                    printf("\nDeseja interrompê-lo e realizar novo sorteio?");
-                    printf("\n1 - Sim, novo sorteio");
-                    printf("\n2 - Não, voltar para o menu GESTÃO DE JOGOS");
-                    printf("\nEscolha uma opção: ");
+                    printf("                    ┎─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┒   \n");
+                    printf("                           CAMPEONATO EM ANDAMENTO!          \n");
+                    printf("                    ┖─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┚   \n\n\n");
+                    printf("                    Deseja interrompê-lo e realizar novo sorteio?\n\n");
+                    printf("                    1 - Sim, novo sorteio\n");
+                    printf("                    2 - Não, voltar para o menu GESTÃO DE JOGOS\n\n");
+                    printf("                    Escolha uma opção ➤ ");    
                     scanf("%d", &confirma);
 
                     if (confirma == 1) {
@@ -266,7 +274,9 @@ void introduzirResultado(void) {
     int indicesValidos[100];
     int contadorOpcoes = 0;
 
-    printf("\n======= JOGOS DISPONÍVEIS PARA REGISTO =======\n");
+    limparTela();
+    printf("\n\n");
+    printf("======= JOGOS DISPONÍVEIS PARA REGISTO =======\n\n");
 
     int fases[] = {16, 8, 4, 2};
 
