@@ -1,4 +1,3 @@
-﻿
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,7 +47,7 @@ void cadastrarEquipa()
         equipaNome[strcspn(equipaNome, "\n")] = 0;
 
         printf("\n                             ➤  %s\n\n", equipaNome);
-        printf("                  [1] CONFIRMAR    [2] DIGITAR NOVAMENTE   [0] VOLTAR\n\n");
+        printf("                  [1] CONFIRMAR    [2] DIGITAR NOVAMENTE   [0] CANCELAR\n\n");
         printf("                             ➤  ");
 
         while (scanf("%d", &opcaoConf) != 1 || opcaoConf < 0 || opcaoConf > 2)
@@ -61,7 +60,7 @@ void cadastrarEquipa()
             printf("                             NOME DA EQUIPA: %s\n", equipaNome);
             printf("\n                             ➤  %s\n\n", equipaNome);
             printf("                             Selecione uma opção válida!\n\n");
-            printf("                  [1] CONFIRMAR    [2] DIGITAR NOVAMENTE   [0] VOLTAR\n\n");
+            printf("                  [1] CONFIRMAR    [2] DIGITAR NOVAMENTE   [0] CANCELAR\n\n");
             printf("                             ➤  ");
             while (getchar() != '\n');
         }
@@ -75,11 +74,8 @@ void cadastrarEquipa()
                 totalEquipas++;
                 proximoID++;
 
-                salvarDados();
-
                 printf("\n\n                          ✅ Equipa cadastrada com sucesso!\n");
-                printf("                                      AGUARDE....\n");
-                sleep(2);
+                sleep(1);
 
                 tentarNovamente = 0;
             }
@@ -96,7 +92,9 @@ void cadastrarEquipa()
         }
         else
         {
-            printf("Não é possível adicionar mais times!\n");
+            printf("                                    Não é possível adicionar mais equipas!\n");
+            sleep(2);
+  
         }
     }
 }
@@ -186,9 +184,9 @@ void apagarEquipa()
         }
         totalEquipas--;
 
-        salvarDados();//Adicionado para gravar as equipas
+ 
 
-        printf("\n\n                          ✅ equipa removida com sucesso.\n\n");
+        printf("\n\n                          ✅ Equipa removida com sucesso.\n\n");
     }
     else {
         printf("                             ❌ Cancelado!\n\n");
@@ -253,7 +251,7 @@ void gerirEquipas()
 }
 
 void salvarDados(void) {
-    FILE *f = fopen("data/equipas.txt", "w"); // "w" para sobrescrever o ficheiro antigo
+    FILE *f = fopen("data/camp.txt", "w"); // "w" para sobrescrever o ficheiro antigo
     if (f == NULL) {
         printf("\n[Erro] Não foi possível abrir data/equipas.txt para gravar!\n");
         return;
@@ -271,16 +269,19 @@ void salvarDados(void) {
                 equipas[i].saldoGolos,
                 equipas[i].fase_eliminada);
     }
+    printf("                         ✅ Dados salvos com sucesso em equipas.txt!\n\n");
+    sleep(2);
 
     fclose(f);
 }
 
 void carregarDados(void) {
-    FILE *f = fopen("data/equipas.txt", "r");
+    FILE *f = fopen("data/camp.txt", "r");
     if (f == NULL) {
         printf("\n[Aviso] Ficheiro data/equipas.txt não encontrado. Iniciando vazio.\n");
         return;
     }
+
 
     totalEquipas = 0;
     // Lê os 7 campos exatamente como gravados no salvarDados
@@ -303,6 +304,8 @@ void carregarDados(void) {
     if (totalEquipas > 0) {
         proximoID = equipas[totalEquipas - 1].id + 1;
     }
+        printf("\n                       ✅ Dados carregados com sucesso!\n", totalEquipas);
+        sleep(2);
+    
 
-    //printf("\n[Sistema] %d equipas carregadas com sucesso!\n", totalEquipas);
 }
