@@ -41,9 +41,9 @@ void registarPenaltis(void);        // Corresponde ao RF 2.4
 // UC 1.2 - Gerir Jogos (Função Principal do Módulo)
 void menuGerirJogos(void) {
     int opcao;
-
+      limparTela();
     do {
-        limparTela();
+  
         printf("                 ╔══════════════════════════════════════════╗\n");
         printf("                               GESTÃO DE JOGOS               \n");
         printf("                 ╚══════════════════════════════════════════╝\n\n");
@@ -800,4 +800,5 @@ void listarArvoreCompleta(void) {
     printf("==============================================\n");
 
 }
+
 
