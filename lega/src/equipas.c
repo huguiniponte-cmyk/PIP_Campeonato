@@ -29,6 +29,7 @@ void menuGerirEquipas()
 // Cadastra uma nova equipa no campeonato
 void cadastrarEquipa()
 {
+
     char equipaNome[50];
     int opcaoConf;
     int tentarNovamente = 1;
@@ -65,6 +66,9 @@ void cadastrarEquipa()
             while (getchar() != '\n');
         }
 
+
+
+
         if (totalEquipas < 16)
         {
             if (opcaoConf == 1)
@@ -74,7 +78,7 @@ void cadastrarEquipa()
                 totalEquipas++;
                 proximoID++;
 
-                printf("\n\n                          ✅ Equipa cadastrada com sucesso!\n");
+                printf("\n\n                           ✅ Equipa cadastrada com sucesso!\n");
                 sleep(1);
 
                 tentarNovamente = 0;
@@ -89,15 +93,22 @@ void cadastrarEquipa()
                 printf("                                     Cancelando...\n");
                 sleep(2);
             }
+
         }
         else
         {
-            printf("                                    Não é possível adicionar mais equipas!\n");
+
+            tentarNovamente = 0;
+            printf("\n\n");
+            printf("                        Não é possível adicionar mais equipas!\n");
             sleep(2);
-  
         }
+
     }
+
+
 }
+
 
 
 //apaga a equipa selecionada
@@ -186,7 +197,7 @@ void apagarEquipa()
 
  
 
-        printf("\n\n                          ✅ Equipa removida com sucesso.\n\n");
+        printf("\n\n                           ✅ Equipa removida com sucesso.\n\n");
     }
     else {
         printf("                             ❌ Cancelado!\n\n");
@@ -218,7 +229,17 @@ void gerirEquipas()
         switch (opcaoGest)
         {
         case 1:
-            cadastrarEquipa();
+            if (totalEquipas >= 16 && opcaoGest == 1)
+            {
+                printf("\n\n");
+                printf("               ⚠️ Não é possível adicionar mais equipas (Capacidade Máxima: 16) \n");
+                printf("                      Apague uma equipa ou inicie um novo campeonato!\n\n");
+                sleep(4);
+                return;
+            }
+            else {
+                cadastrarEquipa();
+            }
             break;
         case 2:
             apagarEquipa();
@@ -279,6 +300,7 @@ void carregarDados(void) {
     FILE *f = fopen("data/equipas.txt", "r");
     if (f == NULL) {
         printf("\n[Aviso] Ficheiro data/equipas.txt não encontrado. Iniciando vazio.\n");
+        sleep(1);
         return;
     }
 
@@ -309,4 +331,3 @@ void carregarDados(void) {
     
 
 }
-
