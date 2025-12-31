@@ -251,7 +251,7 @@ void gerirEquipas()
 }
 
 void salvarDados(void) {
-    FILE *f = fopen("data/camp.txt", "w"); // "w" para sobrescrever o ficheiro antigo
+    FILE *f = fopen("data/equipas.txt", "w"); // "w" para sobrescrever o ficheiro antigo
     if (f == NULL) {
         printf("\n[Erro] Não foi possível abrir data/equipas.txt para gravar!\n");
         return;
@@ -276,7 +276,7 @@ void salvarDados(void) {
 }
 
 void carregarDados(void) {
-    FILE *f = fopen("data/camp.txt", "r");
+    FILE *f = fopen("data/equipas.txt", "r");
     if (f == NULL) {
         printf("\n[Aviso] Ficheiro data/equipas.txt não encontrado. Iniciando vazio.\n");
         return;
@@ -309,3 +309,4 @@ void carregarDados(void) {
     
 
 }
+
