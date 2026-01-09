@@ -27,7 +27,6 @@ typedef struct {
 
 void menuGerirJogos(void);
 
-// UC 1.2.1
 void registarJogos(void);
 
 // Casos de uso incluídos
@@ -37,8 +36,7 @@ void determinarVencedor(void);
 void atualizarEstatisticas(void);
 void carregarJogos(void);
 void gravarResultado(void);
-
-
+void salvarDados(void);
 void listarArvoreCompleta(void);
 
 // Casos de uso estendidos
@@ -50,5 +48,7 @@ void registarPenaltis(void);
 // Dados globais 
 extern Jogo jogos[100];
 extern int totalJogos;
+extern int sorteioRealizado; // Adicione esta linha aqui
 
 #endif
+
