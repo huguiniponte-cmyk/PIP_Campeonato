@@ -87,7 +87,7 @@ void resetTotal(void) {
         extern int sorteioRealizado;
         totalJogos = 0;
         sorteioRealizado = 0;
-
+        limparEstatisticas(); //adicionado por Hugo para estatisticas.
         
         printf("\n\n");
         printf("                             ✅ Sistema reiniciado!\n");
@@ -158,5 +158,6 @@ int main()
 
     return 0;
 }
+
 
 
