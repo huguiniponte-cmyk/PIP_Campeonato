@@ -41,40 +41,41 @@ void registarPenaltis(void);        // Corresponde ao RF 2.4
 // UC 1.2 - Gerir Jogos (Função Principal do Módulo)
 void menuGerirJogos(void) {
     int opcao;
-      limparTela();
+    int resultadoScan; // Para validar se foi digitado um número
+    
     do {
-  
-        printf("                 ╔══════════════════════════════════════════╗\n");
-        printf("                               GESTÃO DE JOGOS               \n");
-        printf("                 ╚══════════════════════════════════════════╝\n\n");
-        printf("                    ┎─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┒   \n");
-        printf("                      1. Gerar Jogos da Fase (Sorteio)       \n"); 
-        printf("                      2. Registar Resultados de Jogos        \n");            
-        printf("                      3. Listar Árvore do Campeonato         \n");
-        printf("                      0. Voltar ao Menu Principal            \n");
-        printf("                    ┖─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┚   \n");
-
-
-        printf("                          Selecione uma opção ➤  ");
-        scanf("%d", &opcao);
-
+        printf("\n======================== GESTÃO DE JOGOS ========================\n");
+        printf("               1. Gerar Jogos da Fase (Sorteio)\n"); 
+        printf("               2. Registar Resultados de Jogos\n");            
+        printf("               3. Listar Árvore do Campeonato\n");
+        printf("               0. Voltar ao Menu Principal\n");
+        printf("               Escolha uma opção: ");
+        
+        resultadoScan = scanf("%d", &opcao); //Validação contra letras
+        
+        if (resultadoScan != 1) {
+            printf("\n⚠️ Opção não aceita.\nEscolha uma das opções acima.\n");
+            while (getchar() != '\n'); // Limpa o "lixo" do buffer
+            sleep(2); // Pausa para o usuário ler o erro
+            continue; // Volta para o início do loop
+        }
+        
         switch(opcao) {
             case 1:
                 //Proteção caso já haja campeonato em andamento
                 if (sorteioRealizado == 1) {
-                    limparTela();
                     int confirma;
-                    printf("                    ┎─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┒   \n");
-                    printf("                           CAMPEONATO EM ANDAMENTO!          \n");
-                    printf("                    ┖─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┚   \n\n\n");
-                    printf("                    Deseja interrompê-lo e realizar novo sorteio?\n\n");
-                    printf("                    1 - Sim, novo sorteio\n");
-                    printf("                    2 - Não, voltar para o menu GESTÃO DE JOGOS\n\n");
-                    printf("                    Escolha uma opção ➤ ");    
+                    printf("\n==============================================");
+                    printf("\n           CAMPEONATO EM ANDAMENTO!           ");
+                    printf("\n==============================================");
+                    printf("\nDeseja interrompê-lo e realizar novo sorteio?");
+                    printf("\n1 - Sim, novo sorteio");
+                    printf("\n2 - Não, voltar para o menu GESTÃO DE JOGOS");
+                    printf("\nEscolha uma opção: ");
                     scanf("%d", &confirma);
 
                     if (confirma == 1) {
-                        printf("\n[Aviso] Reiniciando campeonato e limpando jogos anteriores...\n");
+                        printf("\n✅ Reiniciando campeonato e limpando jogos anteriores...\n");
                         remove("data/jogos.txt"); // Apaga o ficheiro físico
                         totalJogos = 0;
                         sorteioRealizado = 0;
@@ -98,11 +99,13 @@ void menuGerirJogos(void) {
                 printf("A sair da Gestão de Jogos...\n");
                 break;
             default:
-                printf("Opção inválida!\n");
+                printf("            \n ⚠️  Opção não aceita.");
+                printf("            \nEscolha uma das opções acima.\n");
+                sleep(2);
+                break;
         }
     } while (opcao != 0);
 }
-
 
 // Implementação da sequência lógica do UC 1.2.2 (RF 2.2)
 void registarJogos(void) {
@@ -261,7 +264,6 @@ void sortearConfrontos(void) {
     printf("\n***************************************************************\n");
 }
 
-
 void introduzirResultado(void) {
     if (totalJogos == 0) {
         printf("\n****************************************************************\n");
@@ -270,13 +272,12 @@ void introduzirResultado(void) {
         printf("****************************************************************\n");
         return;
     }
+    limparTela();
 
     int indicesValidos[100];
     int contadorOpcoes = 0;
 
-    limparTela();
-    printf("\n\n");
-    printf("======= JOGOS DISPONÍVEIS PARA REGISTO =======\n\n");
+    printf("\n======= JOGOS DISPONÍVEIS PARA REGISTO =======\n");
 
     int fases[] = {16, 8, 4, 2};
 
@@ -359,12 +360,22 @@ void introduzirResultado(void) {
     }
 
     int opcao;
-    printf("\nIntroduza a opção do jogo que deseja registar: ");
-    if (scanf("%d", &opcao) != 1 || opcao < 1 || opcao > contadorOpcoes) {
-        printf("[Erro] Opção inválida.\n");
-        while(getchar() != '\n');
-        return;
-    }
+    int entradaValida = 0;
+
+    do {
+        printf("\nIntroduza a opção do jogo que deseja registar: ");
+        
+        // 1. Verifica se é um número e se está no intervalo correto
+        if (scanf("%d", &opcao) == 1 && opcao >= 1 && opcao <= contadorOpcoes) {
+            entradaValida = 1; // Sucesso!
+        } else {
+            // Se chegou aqui, é porque errou (letra ou número fora do intervalo)
+            printf("\n\n                    ⚠️  Opção inválida.\n\n"); // As duas linhas de espaço que pediste
+                        
+            while(getchar() != '\n'); // Limpa o buffer para não entrar em loop infinito
+            // Não fazemos return, logo o ciclo do-while repete
+        }
+    } while (!entradaValida);
 
     jogoSendoEditado = indicesValidos[opcao - 1];
     coletarDadosDoConfronto();
@@ -406,14 +417,24 @@ void coletarDadosDoConfronto(void) {
         //Coleta de golos do tempo normal (com trava para negativos)
         do {
             printf("\n---> Digite os golos de %s: ", nA);
-            scanf("%d", &jogos[i].golosA);
-            if(jogos[i].golosA < 0) printf("[Erro] O número de golos não pode ser negativo!\n");
+            if (scanf("%d", &jogos[i].golosA) != 1) {
+                printf("[Erro] Por favor, digite um número válido!\n");
+                while(getchar() != '\n'); // Limpa o erro do teclado
+                jogos[i].golosA = -1;    // Força a repetição do loop
+            } else if(jogos[i].golosA < 0) {
+                printf("[Erro] O número de golos não pode ser negativo!\n");
+            }
         } while(jogos[i].golosA < 0);
 
         do {
             printf("---> Digite os golos de %s: ", nB);
-            scanf("%d", &jogos[i].golosB);
-            if(jogos[i].golosB < 0) printf("[Erro] O número de golos não pode ser negativo!\n");
+            if (scanf("%d", &jogos[i].golosB) != 1) {
+                printf("[Erro] Por favor, digite um número válido!\n");
+                while(getchar() != '\n'); 
+                jogos[i].golosB = -1;
+            } else if(jogos[i].golosB < 0) {
+                printf("[Erro] O número de golos não pode ser negativo!\n");
+            }
         } while(jogos[i].golosB < 0);
 
         //Lógica de Empate e Pênaltis
@@ -421,18 +442,28 @@ void coletarDadosDoConfronto(void) {
             printf("\nEmpate no tempo regulamentar ou na prorrogação. Registar Pênaltis:\n");
             
             do {
-                // Trava para penaltis negativos - Equipa A
+                // Trava para penaltis negativos e letras- Equipa A
                 do {
                     printf("---> Pênaltis %s: ", nA);
-                    scanf("%d", &jogos[i].penaltisA);
-                    if(jogos[i].penaltisA < 0) printf("[Erro] Valor negativo não permitido!\n");
+                    if (scanf("%d", &jogos[i].penaltisA) != 1) {
+                        printf("[Erro] Digite um número válido!\n");
+                        while(getchar() != '\n');
+                        jogos[i].penaltisA = -1;
+                    } else if(jogos[i].penaltisA < 0) {
+                        printf("[Erro] Valor negativo não permitido!\n");
+                    }
                 } while(jogos[i].penaltisA < 0);
 
-                // Trava para penaltis negativos - Equipa B
+                // Trava para penaltis negativos e letras - Equipa B
                 do {
                     printf("---> Pênaltis %s: ", nB);
-                    scanf("%d", &jogos[i].penaltisB);
-                    if(jogos[i].penaltisB < 0) printf("[Erro] Valor negativo não permitido!\n");
+                    if (scanf("%d", &jogos[i].penaltisB) != 1) {
+                        printf("[Erro] Digite um número válido!\n");
+                        while(getchar() != '\n');
+                        jogos[i].penaltisB = -1;
+                    } else if(jogos[i].penaltisB < 0) {
+                        printf("[Erro] Valor negativo não permitido!\n");
+                    }
                 } while(jogos[i].penaltisB < 0);
 
                 if (jogos[i].penaltisA == jogos[i].penaltisB) {
@@ -459,17 +490,26 @@ void coletarDadosDoConfronto(void) {
         }
 
         // --- EXIBIÇÃO DA CONFIRMAÇÃO ---
-        if (jogos[i].tipo_decisao == 2) {
-            printf("\nConfirmar: %s %d (%d) X (%d) %d %s? [S/N]: ", 
-                   nA, jogos[i].golosA, jogos[i].penaltisA, 
-                   jogos[i].penaltisB, jogos[i].golosB, nB);
-        } else {
-            printf("\nConfirmar: %s %d X %d %s? [S/N]: ", 
-                   nA, jogos[i].golosA, jogos[i].golosB, nB);
-        }
-        
-        while(getchar() != '\n'); // Limpar buffer do teclado
-        scanf("%c", &confirmar);
+        int respostaValida = 0;
+        do {
+            if (jogos[i].tipo_decisao == 2) {
+                printf("\nConfirmar: %s %d (%d) X (%d) %d %s? [S/N]: ", 
+                       nA, jogos[i].golosA, jogos[i].penaltisA, 
+                       jogos[i].penaltisB, jogos[i].golosB, nB);
+            } else {
+                printf("\nConfirmar: %s %d X %d %s? [S/N]: ", 
+                       nA, jogos[i].golosA, jogos[i].golosB, nB);
+            }
+
+            while(getchar() != '\n'); // Limpa o buffer
+            scanf("%c", &confirmar);
+
+            if (confirmar == 's' || confirmar == 'S' || confirmar == 'n' || confirmar == 'N') {
+                respostaValida = 1;
+            } else {
+                printf("\n⚠️ Resposta inválida! Por favor, digite apenas 'S' para Sim ou 'N' para Não.\n");
+            }
+        } while (!respostaValida);
 
         if (confirmar == 'n' || confirmar == 'N') {
             printf("\n[Aviso] Reiniciando introdução de golos para este jogo...\n");
@@ -483,7 +523,7 @@ void coletarDadosDoConfronto(void) {
     gravarResultado(); 
 
     jogoSendoEditado = -1;
-    printf("\n[Sucesso] Resultado validado, registado e guardaado!\n");
+    printf("\n ✅  Resultado validado, registado e guardado!\n");
 }
 
 void determinarVencedor(void) {
@@ -524,7 +564,7 @@ void determinarVencedor(void) {
                 if (faseSeguinte == 2) {
                     printf("[Avanço] Vencedor garantiu lugar na FINAL!\n");
                 } else {
-                    printf("[Avanço] Vencedor avançou para a Vaga %c do %s %d\n", 
+                    printf("\n ✅ Vencedor avançou para a Vaga %c do %s %d\n", 
                            ladoA ? 'A' : 'B', traduzirFase(faseSeguinte), slotDestino);
                 }
                 break;
@@ -537,7 +577,7 @@ void determinarVencedor(void) {
             if(equipas[e].id == jogos[i].id_vencedor) strcpy(nomeCampeao, equipas[e].nome);
         }
         printf("\n****************************************************************\n");
-        printf("                       CAMPEÃO DO CAMPEONATO: %s   \n", nomeCampeao);
+        printf("                       CAMPEÃO DO TORNEIO: %s   \n", nomeCampeao);
         printf("****************************************************************\n");
     }
 }
@@ -612,17 +652,28 @@ void gravarResultado(void) {
 }
 
 void carregarJogos(void) {
-    // Tenta abrir o ficheiro na subpasta data
+    // Limpa tudo o que estiver na memória RAM
+    totalJogos = 0;
+    sorteioRealizado = 0; 
+
+    // Limpa os IDs antigos para não sobrar "lixo" - É OPCIONAL
+    for(int i = 0; i < 100; i++) {
+        jogos[i].id_equipaA = 0;
+        jogos[i].id_equipaB = 0;
+        jogos[i].id_vencedor = 0;
+    }
+
+    // Tenta abrir o ficheiro
     FILE *f = fopen("data/jogos.txt", "r");
     
-    // Se o ficheiro não existe, sai da função sem erro
     if (f == NULL) {
+        // Se não houver ficheiro, as variáveis já estão em 0,
+        // então o programa saberá que não houve sorteio.
         return; 
     }
 
-    totalJogos = 0;
     
-    // Lê os 10 campos inteiros separados por ponto e vírgula
+    // Se o ficheiro abrir, lemos os dados e atualizamos a flag
     while (fscanf(f, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d\n", 
            &jogos[totalJogos].id_jogo,
            &jogos[totalJogos].fase,
@@ -638,13 +689,12 @@ void carregarJogos(void) {
         totalJogos++;
     }
 
-    fclose(f);
-
     // Se carregou dados, ativa a flag que permite ver a árvore e registrar resultados
     if (totalJogos > 0) {
         sorteioRealizado = 1; 
         //printf("\n[Sistema] %d jogos recuperados da pasta data.\n", totalJogos);
     }
+    fclose(f);
 }
 
 /* Funções auxiliares - UC extendidos */
@@ -697,7 +747,7 @@ const char* traduzirFase(int alvo) {
 }
 
 void listarArvoreCompleta(void) {
-    if (sorteioRealizado == 0) {
+    if (sorteioRealizado == 0 || totalJogos == 0) {
         printf("\n****************************************************************\n");
         printf("A árvore ainda não pode ser gerada.\n");
         printf("Por favor, realize primeiro o sorteio (Opção 1).\n");
