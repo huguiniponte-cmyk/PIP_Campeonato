@@ -65,7 +65,6 @@ void exibirRankingGeral() {
     }
 
     // 2. Ordenar por Saldo (Bubble Sort)
-    // Critério: Maior Saldo > Mais Golos Marcados
     for(int i=0; i<totalEquipas-1; i++) {
         for(int j=0; j<totalEquipas-i-1; j++) {
             int troca = 0;
@@ -80,33 +79,49 @@ void exibirRankingGeral() {
         }
     }
 
-    // 3. Exibir Tabela Formatada (Alterado conforme pedido)
+    // 3. Exibir Tabela Formatada e Melhorada
     limparTela();
-    printf("\n======================================= RANKING GERAL =======================================\n");
+    printf("\n===============================================================================\n");
+    printf("                                RANKING GERAL                                  \n");
+    printf("===============================================================================\n");
     
-    // Cabeçalho com as colunas na ordem pedida
-    // # = Posição
-    printf("%-3s | %-20s | %-5s | %-4s | %-4s | %-4s | %s\n", 
-           "#", "EQUIPA", "JOGOS", "GM", "GS", "DIF", "MED. G/J");
+    // Cabeçalho com larguras fixas:
+    // # (3) | Equipa (25) | Jogos (5) | GM (3) | GS (3) | DIF (3) | Média (5)
+    printf("%-3s | %-25s | %-5s | %-3s | %-3s | %-3s | %-5s\n", 
+           "#", "EQUIPA", "JOGOS", "GM", "GS", "DIF", "MEDIA");
     
-    printf("---------------------------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------------\n");
     
-    for(int i=0; i<totalEquipas; i++) {
-        printf("%02d  | %-20s |   %d   |  %2d  |  %2d  |  %2d  |  %.2f\n", 
-            i + 1,                 // Posição (índice + 1)
-            lista[i].nome,         // Equipa
-            lista[i].jogosJogados, // Jogos Realizados
-            lista[i].gMarcados,    // GM
-            lista[i].gSofridos,    // GS
-            lista[i].saldo,        // Dif
-            lista[i].eficiencia    // Media
+    for(int i = 0; i < totalEquipas; i++) {
+        char nomeFormatado[26];
+        strncpy(nomeFormatado, lista[i].nome, 22); // Copia os primeiros 22 caracteres
+        
+        // Se o nome for muito longo, adiciona "..."
+        if (strlen(lista[i].nome) > 22) {
+            nomeFormatado[22] = '\0';
+            strcat(nomeFormatado, "...");
+        } else {
+            nomeFormatado[22] = '\0'; // Garante terminação se for menor
+            strcpy(nomeFormatado, lista[i].nome);
+        }
+
+        // CORREÇÃO DE ALINHAMENTO AQUI:
+        // Ajustei os espaços nos %d para baterem certo com o tamanho do cabeçalho
+        printf("%02d  | %-25s |  %2d   | %2d  | %2d  | %3d |  %4.2f\n", 
+            i + 1,
+            nomeFormatado,         
+            lista[i].jogosJogados, 
+            lista[i].gMarcados,    
+            lista[i].gSofridos,    
+            lista[i].saldo,        
+            lista[i].eficiencia    
         );
     }
-    printf("=============================================================================================\n");
+    printf("===============================================================================\n");
     printf("Pressione Enter para voltar...");
-    while(getchar() != '\n'); // Limpa buffer se necessário
+    while(getchar() != '\n'); 
     getchar();
-}
+} 
 
 void exibirTopPerformers() {
     if (totalEquipas < 2) { 
@@ -308,3 +323,4 @@ void limparEstatisticas(void) {
     }
     printf(" >> Estatísticas internas reiniciadas.\n");
 }
+
