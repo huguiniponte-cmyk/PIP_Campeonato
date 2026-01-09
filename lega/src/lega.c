@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "equipas.h"
 #include "jogos.h"
+#include "estatisticas.h"
 
 // Definição da função logo no início - Adicionado por Annaisa
 void limparTela(void) {
@@ -157,4 +158,5 @@ int main()
 
     return 0;
 }
+
 
