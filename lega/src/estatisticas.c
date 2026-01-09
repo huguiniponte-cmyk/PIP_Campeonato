@@ -294,4 +294,17 @@ void menuEstatisticas() {
                 sleep(1);
         }
     } while(opcao != 0);
+
+}
+
+void limparEstatisticas(void) {
+    // Acede à variável global equipas e limpa os campos numéricos
+    for (int i = 0; i < 16; i++) {
+        equipas[i].golosMarcados = 0;
+        equipas[i].golosSofridos = 0;
+        equipas[i].saldoGolos = 0;
+        equipas[i].fase_eliminada = 0;
+        
+    }
+    printf(" >> Estatísticas internas reiniciadas.\n");
 }
