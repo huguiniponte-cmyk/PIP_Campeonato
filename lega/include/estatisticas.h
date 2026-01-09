@@ -8,5 +8,7 @@ void menuEstatisticas(void);
 void exibirRankingGeral(void);
 void exibirTopPerformers(void);
 void exibirResumoCampeao(void);
+void limparEstatisticas(void);
+
 
 #endif
