@@ -87,7 +87,14 @@ void resetTotal(void) {
         extern int sorteioRealizado;
         totalJogos = 0;
         sorteioRealizado = 0;
-        limparEstatisticas(); //adicionado por Hugo para estatisticas.
+        for (int i = 0; i < 16; i++) {
+            equipas[i].golosMarcados = 0;
+            equipas[i].golosSofridos = 0;
+            equipas[i].saldoGolos = 0;
+            equipas[i].fase_eliminada = 0;
+            equipas[i].isenta = 0;
+            strcpy(equipas[i].nome, ""); // Limpa também o nome
+        } //adicionado por Hugo para estatisticas.
         
         printf("\n\n");
         printf("                             ✅ Sistema reiniciado!\n");
@@ -158,6 +165,7 @@ int main()
 
     return 0;
 }
+
 
 
 
