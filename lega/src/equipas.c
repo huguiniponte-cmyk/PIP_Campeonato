@@ -77,6 +77,7 @@ void cadastrarEquipa()
                 strcpy(equipas[totalEquipas].nome, equipaNome);
                 totalEquipas++;
                 proximoID++;
+                salvarDados();
 
                 printf("\n\n                           ✅ Equipa cadastrada com sucesso!\n");
                 sleep(1);
@@ -290,7 +291,7 @@ void salvarDados(void) {
                 equipas[i].saldoGolos,
                 equipas[i].fase_eliminada);
     }
-    printf("                         ✅ Dados salvos com sucesso em equipas.txt!\n\n");
+    printf("                         ✅ Dados salvos com sucesso!\n\n");
     sleep(2);
 
     fclose(f);
@@ -326,7 +327,7 @@ void carregarDados(void) {
     if (totalEquipas > 0) {
         proximoID = equipas[totalEquipas - 1].id + 1;
     }
-        printf("\n                       ✅ Dados carregados com sucesso!\n", totalEquipas);
+        printf("\n                       ✅ Dados carregados com sucesso!\n");
         sleep(2);
     
 
