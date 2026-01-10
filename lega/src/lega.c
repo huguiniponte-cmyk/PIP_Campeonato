@@ -6,6 +6,8 @@
 #include "equipas.h"
 #include "jogos.h"
 #include "estatisticas.h"
+#include <time.h>
+
 
 // Definição da função logo no início - Adicionado por Annaisa
 void limparTela(void) {
@@ -42,9 +44,12 @@ void limparTela(void) {
 // Exibe o menu principal do sistema
 void menuPrincipal()
 {
+
+
+    srand(time(NULL));
     limparTela();
 
-
+    printf("\n\n");
     printf("╔════════════════════════════════════════════════════════════════════════════════╗\n");
     printf("║     ██▄  ▄██ ██████ ███  ██ ██  ██   ██ ███  ██ ██ ▄█████ ██ ▄████▄ ██         ║\n");
     printf("║     ██ ▀▀ ██ ██▄▄   ██ ▀▄██ ██  ██   ██ ██ ▀▄██ ██ ██     ██ ██▄▄██ ██         ║\n");
@@ -65,11 +70,19 @@ void menuPrincipal()
 
 
 void resetTotal(void) {
+
     int confirma;
     printf("\n\n                           ⚠️  AVISO DE RESET TOTAL ⚠️\n\n");
     printf("                           Isto apagará TODOS OS DADOS!\n\n");
-    printf("                         Tens a certeza? [1] SIM / [0] NÃO: ");
-    scanf("%d", &confirma);
+    do {
+        printf("                         Tens a certeza? [1] SIM / [0] NÃO: ");
+        scanf("%d", &confirma);
+        while (getchar() != '\n');
+     if (confirma != 1 && confirma != 0)
+    {
+        printf("\n                         ⚠️  Digite apenas 1 (SIM) ou 0 (NÃO).\n\n");
+    }
+} while (confirma != 0 && confirma != 1);
 
     if (confirma == 1) {
         // 1. Apagar ficheiros físicos
@@ -87,19 +100,22 @@ void resetTotal(void) {
         extern int sorteioRealizado;
         totalJogos = 0;
         sorteioRealizado = 0;
+
+    //adicionado por Hugo para estatisticas.
         for (int i = 0; i < 16; i++) {
-            equipas[i].golosMarcados = 0;
+            equipas[i].golosMarcados = 0;   
             equipas[i].golosSofridos = 0;
             equipas[i].saldoGolos = 0;
             equipas[i].fase_eliminada = 0;
             equipas[i].isenta = 0;
             strcpy(equipas[i].nome, ""); // Limpa também o nome
-        } //adicionado por Hugo para estatisticas.
-        
+        }
+
         printf("\n\n");
         printf("                             ✅ Sistema reiniciado!\n");
         sleep(2);
-    } else {
+    }
+    else {
         printf("\n                               Operação cancelada!\n");
         sleep(1);
     }
@@ -145,12 +161,13 @@ int main()
             break;
 
         case 3:
-            printf("VER CLASSIFICAÇÃO\n");
+            listarClassificacao();
             break;
         case 4:
-            printf("ESTATÍSTICAS\n");
+            menuEstatisticas();
             break;
         case 5:
+            gravarResultado();
             salvarDados();
             break;
         case 6:
@@ -158,14 +175,10 @@ int main()
             carregarJogos(); // Recarrega os jogos também para sincronizar
             break;
         case 7:
-        resetTotal();
-        break;
+            resetTotal();
+            break;
         }
     } while (opcaoMenu != 0);
 
     return 0;
 }
-
-
-
-
