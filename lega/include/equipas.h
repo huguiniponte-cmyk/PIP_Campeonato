@@ -9,7 +9,8 @@ typedef struct
     int golosMarcados;    // Necessário para armazenar 
     int golosSofridos;    // os dados acumulados no 
     int saldoGolos;       // campeonato 
-    int fase_eliminada; // Útil para (classificação final) - Adicionado por Annaisa
+    int fase_eliminada; // necessário para definir a situação da equipa (fase de grupo, campeão...) para a classificação
+    int vitorias;// Útil para (classificação final) - Adicionado por Annaisa
 }Equipa;
 
 extern Equipa equipas[16];
