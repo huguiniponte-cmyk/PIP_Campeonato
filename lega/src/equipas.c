@@ -103,7 +103,7 @@ void cadastrarEquipa()
                 printf("                                     Cancelando...\n");
                 sleep(2);
             }
-
+            
         }
         else
         {
@@ -212,9 +212,23 @@ void apagarEquipa()
                           // limpa a tela
             // aqui você pode reimprimir o menu de remover equipas se quiser manter visível
         }
-        else {
+        else if (confirmar == 1)
+        {
             valido = 1;                 // entrada correta
-            while (getchar() != '\n');  // limpa buffer
+            while (getchar() != '\n');
+
+            for (int i = posicaoId; i < totalEquipas - 1; i++)
+            {
+                equipas[i] = equipas[i + 1];
+            }
+            totalEquipas--;
+
+
+
+            printf("\n\n                           ✅ Equipa removida com sucesso.\n\n");
+            sleep(2);
+        
+ 
         }
     } while (!valido);
 
@@ -321,7 +335,6 @@ void carregarDados(void) {
 
 
     totalEquipas = 0;
-    //isso serve para eu definir a classificacao, guardo os dados da equipa para usar
     // Lê os 7 campos exatamente como gravados no salvarDados
     // O formato %49[^;] lê o nome até encontrar o próximo ponto e vírgula
     while (fscanf(f, "%d;%49[^;];%d;%d;%d;%d;%d\n", 
@@ -347,6 +360,5 @@ void carregarDados(void) {
     
 
 }
-
 
 
