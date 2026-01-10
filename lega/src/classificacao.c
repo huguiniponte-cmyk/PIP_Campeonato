@@ -11,7 +11,7 @@
 
     void listarClassificacao() {
 
-
+limparTela();
         Equipa ranking[16];
         memcpy(ranking, equipas, sizeof(Equipa) * totalEquipas);
 
@@ -103,3 +103,4 @@
         getchar(); // Limpa buffer
         getchar(); // Espera tecla
     }
+
