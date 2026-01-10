@@ -59,7 +59,7 @@ void cadastrarEquipa()
             limparTela();
             printf("\n\n");
             printf("                            ╔══════════════════════════╗\n");
-            printf("                      :D                CADASTRO          \n");
+            printf("                                      CADASTRO          \n");
             printf("                            ╚══════════════════════════╝\n\n\n");
             printf("                             NOME DA EQUIPA: %s\n", equipaNome);
             printf("\n                             ➤  %s\n\n", equipaNome);
@@ -347,5 +347,6 @@ void carregarDados(void) {
     
 
 }
+
 
 
