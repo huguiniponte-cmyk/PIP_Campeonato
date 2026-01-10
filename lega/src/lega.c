@@ -40,7 +40,7 @@ void menuPrincipal()
     printf("                          ┎━─━─━─━─━─━─━─━─━─━─━─━─━─━─┒                          \n");
     printf("                            1 - GESTÃO DE EQUIPAS                                 \n");
     printf("                            2 - GESTÃO DE JOGOS                                   \n"); //Alterado por Annaisa de REGISTO para GESTÃO
-    printf("                            3 - CÁLCULAR CLASSIFICAÇÃO                            \n");
+    printf("                            3 - CLASSIFICAÇÃO                                     \n");
     printf("                            4 - ESTATÍSTICAS                                      \n");
     printf("                            5 - SALVAR DADOS                                      \n");
     printf("                            6 - CARREGAR DADOS                                    \n");
@@ -163,3 +163,4 @@ int main()
 
     return 0;
 }
+
