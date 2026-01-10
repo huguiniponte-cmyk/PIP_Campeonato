@@ -117,7 +117,25 @@ void registarJogos(void) {
 }
 
 void gerarJogosDaFase(void) {
-    totalJogos = 0; // Isto limpa qualquer jogo "lixo" que tenha vindo do ficheiro    
+    totalJogos = 0; // Isto limpa qualquer jogo "lixo" que tenha vindo do ficheiro 
+    // --- CASO ESPECIAL: Campeonato com 2 equipas → jogo direto para a final ---
+    if (totalEquipas == 2) {
+        jogos[0].id_jogo = 1;
+        jogos[0].fase = 2; // FINAL
+        jogos[0].slot = 1;
+        jogos[0].id_equipaA = equipas[0].id;
+        jogos[0].id_equipaB = equipas[1].id;
+        jogos[0].id_vencedor = 0; // Ainda não jogado
+
+        totalJogos = 1;
+        sorteioRealizado = 1;
+
+        printf("\nSorteio concluído: Final direta entre %s X %s\n",
+            equipas[0].nome, equipas[1].nome);
+
+        gravarResultado(); // Salva o estado no ficheiro
+        return; // Sai da função, não há mais sorteio necessário
+    }
     // 1. Verificação de segurança (Baseado no RNF5)
     if (totalEquipas < 2) {
         printf("\n[Erro] O Campeonato precisa de pelo menos 2 equipas registadas para gerar jogos (%d).\n", totalEquipas);
@@ -539,10 +557,19 @@ void determinarVencedor(void) {
             jogos[i].id_vencedor = jogos[i].id_equipaA;
         else if (jogos[i].golosB > jogos[i].golosA)
             jogos[i].id_vencedor = jogos[i].id_equipaB;
+    
     }
 
     if (jogos[i].id_vencedor == 0) return;
 
+    for (int e = 0; e < totalEquipas; e++) {
+        if (equipas[e].id == jogos[i].id_equipaA && equipas[e].id != jogos[i].id_vencedor) {
+            equipas[e].fase_eliminada = jogos[i].fase; // perdeu nesta fase
+        }
+        if (equipas[e].id == jogos[i].id_equipaB && equipas[e].id != jogos[i].id_vencedor) {
+            equipas[e].fase_eliminada = jogos[i].fase; // perdeu nesta fase
+        }
+    }
     int faseSeguinte = 0;
     if (jogos[i].fase == 16)      faseSeguinte = 8;
     else if (jogos[i].fase == 8)  faseSeguinte = 4;
