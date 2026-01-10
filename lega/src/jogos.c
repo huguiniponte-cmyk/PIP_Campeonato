@@ -800,7 +800,7 @@ void listarArvoreCompleta(void) {
         return;
     }
 
-    printf("\n======================= ÁRVORE COMPLETA DO CAMPEONATO =======================\n");
+    printf("\n======================= ÁRVORE COMPLETA DO CAMPEONATO =======================\n\n");
 
     int fases[] = {16, 8, 4, 2}; 
     int faseInicial;
@@ -887,8 +887,9 @@ void listarArvoreCompleta(void) {
             printf("%s %s X %s %s\n", nA, placarA, nB, placarB);
         }
     }
-    printf("==============================================\n");
+    
 
 }
+
 
 
