@@ -11,10 +11,13 @@ Equipa equipas[16];
 int totalEquipas = 0;
 int proximoID = 1;
 
+extern int sorteioRealizado;
+
 
 void menuGerirEquipas()
 {
     limparTela();
+    printf("\n\n");
     printf("                            ╔═══════════════════════════╗\n");
     printf("                                  GESTÃO DE EQUIPAS      \n");
     printf("                            ╚═══════════════════════════╝\n\n\n");
@@ -56,7 +59,7 @@ void cadastrarEquipa()
             limparTela();
             printf("\n\n");
             printf("                            ╔══════════════════════════╗\n");
-            printf("                                      CADASTRO          \n");
+            printf("                      :D                CADASTRO          \n");
             printf("                            ╚══════════════════════════╝\n\n\n");
             printf("                             NOME DA EQUIPA: %s\n", equipaNome);
             printf("\n                             ➤  %s\n\n", equipaNome);
@@ -75,9 +78,15 @@ void cadastrarEquipa()
             {
                 equipas[totalEquipas].id = proximoID;
                 strcpy(equipas[totalEquipas].nome, equipaNome);
+                equipas[totalEquipas].vitorias = 0;
+                equipas[totalEquipas].golosMarcados = 0;
+                equipas[totalEquipas].golosSofridos = 0;
+                equipas[totalEquipas].saldoGolos = 0;
+                equipas[totalEquipas].fase_eliminada = -1; // ainda não jogou
+                equipas[totalEquipas].isenta = 0;
+
                 totalEquipas++;
                 proximoID++;
-                salvarDados();
 
                 printf("\n\n                           ✅ Equipa cadastrada com sucesso!\n");
                 sleep(1);
@@ -124,6 +133,15 @@ void apagarEquipa()
         return;
     }
 
+    if (sorteioRealizado == 1)
+    {
+        printf("\n\n");
+        printf("               ⚠️ Não é possível apagar equipas com o campeonato em andamento! \n");
+        sleep(2);
+        return;
+
+    }
+
     int removerId;
     int posicaoId;
 
@@ -147,6 +165,7 @@ void apagarEquipa()
 
             printf("\n\n                      Informe o ID da equipa que deseja remover: ");
             scanf("%d", &removerId);
+            while (getchar() != '\n');
             printf("\n\n");
 
             if (removerId == 0)
@@ -171,7 +190,6 @@ void apagarEquipa()
                 printf("                            ❌ Equipa não encontrada!\n\n");
                 sleep(2);
                 printf("                        Pressione Enter para tentar novamente....\n\n");
-                while (getchar() != '\n');
                 getchar();
             }
 
@@ -181,29 +199,24 @@ void apagarEquipa()
 
     int confirmar;
 
-    printf("\n                                   REMOVER EQUIPA?\n\n");
+    int valido = 0;
+    do {
+        printf("\n                                   REMOVER EQUIPA?\n\n");
+        printf("                              [1] CONFIRMAR  [0] VOLTAR\n\n");
+        printf("                             ➤  ");
 
-    printf("                              [1] CONFIRMAR  [0] VOLTAR\n\n");
-    printf("                             ➤  ");
-    scanf("%d", &confirmar);
-    printf("\n\n");
-
-    if (confirmar == 1)
-    {
-        for (int i = posicaoId; i < totalEquipas - 1; i++)
-        {
-            equipas[i] = equipas[i + 1];
+        if (scanf("%d", &confirmar) != 1 || (confirmar != 0 && confirmar != 1)) {
+            while (getchar() != '\n'); // limpa buffer
+            printf("\n\n                           ⚠️ Opção inválida! Tente novamente.\n");
+            sleep(1);                   // espera 1 segundo
+                          // limpa a tela
+            // aqui você pode reimprimir o menu de remover equipas se quiser manter visível
         }
-        totalEquipas--;
-
- 
-
-        printf("\n\n                           ✅ Equipa removida com sucesso.\n\n");
-    }
-    else {
-        printf("                             ❌ Cancelado!\n\n");
-    }
-    sleep(2);
+        else {
+            valido = 1;                 // entrada correta
+            while (getchar() != '\n');  // limpa buffer
+        }
+    } while (!valido);
 
 }
 
@@ -220,10 +233,11 @@ void gerirEquipas()
         {
             menuGerirEquipas();
             printf("                              Digite uma opção válida!\n\n");
-            while (getchar() != '\n');
-            continue;
             printf("                              Selecione uma opção ➤  ");
             while (getchar() != '\n');
+            continue;
+
+
         }
 
 
@@ -307,6 +321,7 @@ void carregarDados(void) {
 
 
     totalEquipas = 0;
+    //isso serve para eu definir a classificacao, guardo os dados da equipa para usar
     // Lê os 7 campos exatamente como gravados no salvarDados
     // O formato %49[^;] lê o nome até encontrar o próximo ponto e vírgula
     while (fscanf(f, "%d;%49[^;];%d;%d;%d;%d;%d\n", 
@@ -332,3 +347,5 @@ void carregarDados(void) {
     
 
 }
+
+
