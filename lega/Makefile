@@ -8,7 +8,11 @@ SRC_DIR = src
 INCLUDE_DIR = include
 
 # Ficheiros fonte
-SRC = $(SRC_DIR)/lega.c $(SRC_DIR)/equipas.c $(SRC_DIR)/jogos.c $(SRC_DIR)/estatisticas.c
+SRC = $(SRC_DIR)/lega.c \
+      $(SRC_DIR)/equipas.c \
+      $(SRC_DIR)/jogos.c \
+      $(SRC_DIR)/estatisticas.c \
+      $(SRC_DIR)/classificacao.c  \
 
 # Ficheiros objeto
 OBJ = $(SRC:.c=.o)
