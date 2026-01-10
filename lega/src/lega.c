@@ -16,6 +16,8 @@ void limparTela(void) {
     // No Linux/WSL, o comando de sistema para limpar o terminal é "clear"
     system("clear");
 }
+
+
 //PROJETO: Sistema de Gestão de Campeonatos
 //AUTOR: Airon, Hugo, Annaisa
 //DATA: 2025
