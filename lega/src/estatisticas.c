@@ -318,9 +318,9 @@ void limparEstatisticas(void) {
         equipas[i].golosMarcados = 0;
         equipas[i].golosSofridos = 0;
         equipas[i].saldoGolos = 0;
-        equipas[i].fase_eliminada = 0;
+        equipas[i].fase_eliminada = -1;
         
     }
-    printf(" >> Estatísticas internas reiniciadas.\n");
+
 }
 
