@@ -6,14 +6,6 @@
 #include "equipas.h"
 #include "jogos.h" 
 
-void shuffle(Equipa* arr, int n) {
-    for (int i = n - 1; i > 0; i--) {
-        int j = rand() % (i + 1);
-        Equipa tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
-}
 
 void listarClassificacao() {
 
@@ -21,11 +13,11 @@ void listarClassificacao() {
     Equipa ranking[16];
     memcpy(ranking, equipas, sizeof(Equipa) * totalEquipas);
 
-    // Bubble sort adaptado para desempates
+    
     for (int i = 0; i < totalEquipas - 1; i++) {
         for (int j = 0; j < totalEquipas - i - 1; j++) {
             int trocar = 0;
-
+//aqui são as verificacoes para caso aja um melhor ir para a posicao acima usando o criterio que foram definidos
             // 1. Vitorias (mais é melhor)
             if (ranking[j].vitorias < ranking[j + 1].vitorias) trocar = 1;
             // 2. Saldo de golos
@@ -64,7 +56,7 @@ void listarClassificacao() {
 
     for (int i = 0; i < totalEquipas; i++) {
         char estado[30];
-
+//verificacao para saber onde o time parou, ou está, para definir a classificacao
         if (ranking[i].fase_eliminada == -1)
             strcpy(estado, "--"); // ou "Fase de Grupos" se preferir
         else if (ranking[i].fase_eliminada == 0)
@@ -77,7 +69,7 @@ void listarClassificacao() {
             strcpy(estado, "Quartos-Finais");
         else if (ranking[i].fase_eliminada == 16)
             strcpy(estado, "Oitavas-Finais");
-
+//formatacao para criar a tabela
         printf("            %-5d | %-20s | %-15s"" | %-10d | % -5d | % -5d | % -5d\n",
             i + 1,
             ranking[i].nome,
@@ -92,3 +84,4 @@ void listarClassificacao() {
     getchar(); // Limpa buffer
     getchar(); // Espera tecla
 }
+
