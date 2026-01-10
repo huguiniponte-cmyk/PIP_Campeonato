@@ -8,40 +8,20 @@
 #include "estatisticas.h"
 #include <time.h>
 
-
+extern int totalEquipas;
+extern int proximoID;
+extern Equipa equipas[16];
 // Definição da função logo no início - Adicionado por Annaisa
 void limparTela(void) {
     // No Linux/WSL, o comando de sistema para limpar o terminal é "clear"
     system("clear");
 }
-
-
 //PROJETO: Sistema de Gestão de Campeonatos
 //AUTOR: Airon, Hugo, Annaisa
 //DATA: 2025
 //DESCRIÇÃO: Sistema para cadastro de equipas, registro de jogos
 //           e cálculo de classificação em campeonatos de futebol
 
-//Estrutura para armazenar dados de uma equipa 
-
-
-
-//Array de 50 times e contador de cadastros
-
-//função para salvar o projeto quando selecionarmos a opção 6 na main()
-//abre o arquito txt selecionado e com "w" escreve a lista dos times com a funcionalidade  "for"
-
-
-//
-//função para carregar dados (é ativa automaticamente quando se inicia o programa na main())
-//para escolher o ficheiro é necessario editar na primeira linha, com "r" ele lê o que está no arquivo
-
-
-
-
-
-//criei funções para os menus de navegação onde irá chamar a partir da seleção do usuário
-// Exibe o menu principal do sistema
 void menuPrincipal()
 {
 
@@ -90,8 +70,7 @@ void resetTotal(void) {
         remove("data/jogos.txt");
 
         // 2. Limpar memória RAM (Variáveis globais das equipas)
-        extern int totalEquipas;
-        extern int proximoID;
+
         totalEquipas = 0;
         proximoID = 1;
 
@@ -106,7 +85,7 @@ void resetTotal(void) {
             equipas[i].golosMarcados = 0;   
             equipas[i].golosSofridos = 0;
             equipas[i].saldoGolos = 0;
-            equipas[i].fase_eliminada = 0;
+            equipas[i].fase_eliminada = -1;
             equipas[i].isenta = 0;
             strcpy(equipas[i].nome, ""); // Limpa também o nome
         }
