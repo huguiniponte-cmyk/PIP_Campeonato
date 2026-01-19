@@ -12,6 +12,7 @@ void listarArvoreCompleta(void);
 void gerarJogosDaFase(void);
 void sortearEquipaIsenta(void);
 void sortearConfrontos(void);
+extern void salvarDados(void);
 
 // VARIÁVEIS GLOBAIS: Onde guardamos os dados
 Jogo jogos[100];
@@ -41,51 +42,83 @@ void registarPenaltis(void);        // Corresponde ao RF 2.4
 // UC 1.2 - Gerir Jogos (Função Principal do Módulo)
 void menuGerirJogos(void) {
     int opcao;
-    int resultadoScan; // Para validar se foi digitado um número
-    
+    int resultadoScan;
+    int opcaoGestao = -1;// Para validar se foi digitado um número
+
     do {
-        printf("\n======================== GESTÃO DE JOGOS ========================\n");
-        printf("               1. Gerar Jogos da Fase (Sorteio)\n"); 
-        printf("               2. Registar Resultados de Jogos\n");            
-        printf("               3. Listar Árvore do Campeonato\n");
-        printf("               0. Voltar ao Menu Principal\n");
-        printf("               Escolha uma opção: ");
+        limparTela();
+        printf("                      ╔═════════════════════════════════╗   \n");
+        printf("                                GESTÃO DE JOGOS             \n");
+        printf("                      ╚═════════════════════════════════╝   \n\n\n");
+        printf("                   ┎━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┒\n");
+        printf("                       1. Gerar Jogos da Fase (Sorteio)     \n"); 
+        printf("                       2. Registar Resultados de Jogos      \n");            
+        printf("                       3. Listar Tabela do Campeonato       \n");
+        printf("                       0. Voltar ao Menu Principal         \n");
+        printf("                   ┖━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━┚\n");
+        printf("                        Escolha uma opção: ");
         
-        resultadoScan = scanf("%d", &opcao); //Validação contra letras
+        resultadoScan = scanf("%d", &opcaoGestao); //Validação contra letras
         
-        if (resultadoScan != 1) {
-            printf("\n⚠️ Opção não aceita.\nEscolha uma das opções acima.\n");
+        if (resultadoScan != 1) { 
+            printf("\n                            ⚠️ Opção não aceita.\n");
+            printf("                        Escolha uma das opções acima.\n");
             while (getchar() != '\n'); // Limpa o "lixo" do buffer
             sleep(2); // Pausa para o usuário ler o erro
             continue; // Volta para o início do loop
         }
         
-        switch(opcao) {
+        switch(opcaoGestao) {
             case 1:
                 //Proteção caso já haja campeonato em andamento
                 if (sorteioRealizado == 1) {
                     int confirma;
-                    printf("\n==============================================");
-                    printf("\n           CAMPEONATO EM ANDAMENTO!           ");
-                    printf("\n==============================================");
-                    printf("\nDeseja interrompê-lo e realizar novo sorteio?");
-                    printf("\n1 - Sim, novo sorteio");
-                    printf("\n2 - Não, voltar para o menu GESTÃO DE JOGOS");
-                    printf("\nEscolha uma opção: ");
-                    scanf("%d", &confirma);
+                    printf("\n                ===============================================");
+                    printf("\n                            CAMPEONATO EM ANDAMENTO!           ");
+                    printf("\n                ===============================================");
+                    printf("\n                Deseja interrompê-lo e realizar novo sorteio?");
+                    printf("\n                1 - Sim, novo sorteio");
+                    printf("\n                2 - Não, voltar para o menu GESTÃO DE JOGOS");
+                    printf("\n                Escolha uma opção: ");
+                  
+
+                    do {
+     
+                        if (scanf("%d", &confirma) != 1) {
+                            while (getchar() != '\n'); // limpa lixo
+                            confirma = 0;
+                        }
+
+                        if (confirma != 1 && confirma != 2) {
+                            printf("\n                            ⚠️ Opção não aceita.\n");
+                            printf("                        Escolha uma das opções acima.\n");
+                        }
+
+                    } while (confirma != 1 && confirma != 2);
 
                     if (confirma == 1) {
-                        printf("\n✅ Reiniciando campeonato e limpando jogos anteriores...\n");
+                        printf("\n               ✅ Reiniciando campeonato e limpando jogos anteriores...\n");
                         remove("data/jogos.txt"); // Apaga o ficheiro físico
+                        sleep(2);
+                        limparTela();
                         totalJogos = 0;
                         sorteioRealizado = 0;
                         gerarJogosDaFase(); 
+                        printf("\n=============================================================");
+                        printf("\nPressione ENTER para voltar ao menu...");
+                        while (getchar() != '\n'); // limpa buffer
+                        getchar(); // espera ENTER
                     } else {
-                        printf("\nOperação cancelada. O campeonato atual foi mantido.\n");
+                        printf("\n               Operação cancelada. O campeonato atual foi mantido.\n");
+                        sleep(2);
                     }
                 } else {
                     // Se não houver sorteio prévio, gera normalmente
+                    limparTela();
                     gerarJogosDaFase(); 
+                    printf("\n\nPressione ENTER para voltar ao menu...");
+                    while (getchar() != '\n'); // limpa buffer
+                    getchar(); // espera ENTER
                 }
                 break;
 
@@ -93,26 +126,39 @@ void menuGerirJogos(void) {
                 registarJogos(); 
                 break;
             case 3:
+                limparTela();
                 listarArvoreCompleta(); 
+                printf("\n=============================================================================");
+                printf("\nPressione ENTER para voltar ao menu...");
+                while (getchar() != '\n'); // limpa buffer
+                getchar(); // espera ENTER
                 break; 
             case 0:
-                printf("A sair da Gestão de Jogos...\n");
-                break;
+                printf("\n\n");
+                printf("                        A sair da Gestão de Jogos...\n");
+                sleep(2);
+                return;
             default:
-                printf("            \n ⚠️  Opção não aceita.");
-                printf("            \nEscolha uma das opções acima.\n");
+                printf("\n                            ⚠️ Opção não aceita.\n");
+                printf("                        Escolha uma das opções acima.\n");
                 sleep(2);
                 break;
         }
-    } while (opcao != 0);
+    } while (opcaoGestao != 0);
 }
 
 // Implementação da sequência lógica do UC 1.2.2 (RF 2.2)
 void registarJogos(void) {
+    if (sorteioRealizado == 0) {
+        printf("\n                 ⚠️ Realize o sorteio antes de registar resultados.\n");
+        sleep(2);
+        return;
+    }
     introduzirResultado();
     determinarVencedor();
     atualizarEstatisticas();
     gravarResultado();
+    salvarDados();
     jogoSendoEditado = -1;
 }
 
@@ -130,7 +176,7 @@ void gerarJogosDaFase(void) {
         totalJogos = 1;
         sorteioRealizado = 1;
 
-        printf("\nSorteio concluído: Final direta entre %s X %s\n",
+        printf("\n                    Sorteio concluído: Final direta entre %s X %s\n",
             equipas[0].nome, equipas[1].nome);
 
         gravarResultado(); // Salva o estado no ficheiro
@@ -159,7 +205,7 @@ void gerarJogosDaFase(void) {
     numIsentos = totalEquipas - (numJogos * 2);
 
     // Feedback visual para o Administrador
-    printf("\n==================== ESTRUTURA DA FASE ====================\n");
+    printf("\n==================== ESTRUTURA DA FASE =====================\n");
     printf("              Equipas Registadas: %d\n", totalEquipas);
     printf("              Número de equipas para a fase seguinte: %d\n", alvo);
     printf("              Jogos a realizar nesta ronda: %d\n", numJogos);
@@ -278,16 +324,16 @@ void sortearConfrontos(void) {
     }
     sorteioRealizado = 1; 
     printf("\n***************************************************************\n");
-    printf("Sorteio concluído. A árvore do campeonato já está disponível.");
+    printf("Sorteio concluído. A Tabela do campeonato já está disponível.");
     printf("\n***************************************************************\n");
 }
 
 void introduzirResultado(void) {
     if (totalJogos == 0) {
-        printf("\n****************************************************************\n");
+        printf("\n**************************************************************\n");
         printf("Nenhum jogo sorteado.");
         printf("\nRealize o sorteio primeiro para registar os resultados (Opção 1).\n");
-        printf("****************************************************************\n");
+        printf("**************************************************************\n");
         return;
     }
     limparTela();
@@ -295,7 +341,7 @@ void introduzirResultado(void) {
     int indicesValidos[100];
     int contadorOpcoes = 0;
 
-    printf("\n======= JOGOS DISPONÍVEIS PARA REGISTO =======\n");
+    printf("\n======= JOGOS DISPONÍVEIS PARA REGISTO =======\n\n");
 
     int fases[] = {16, 8, 4, 2};
 
@@ -541,7 +587,6 @@ void coletarDadosDoConfronto(void) {
     gravarResultado(); 
 
     jogoSendoEditado = -1;
-    printf("\n ✅  Resultado validado, registado e guardado!\n");
 }
 
 void determinarVencedor(void) {
@@ -789,7 +834,7 @@ const char* traduzirFase(int alvo) {
 void listarArvoreCompleta(void) {
     if (sorteioRealizado == 0 || totalJogos == 0) {
         printf("\n****************************************************************\n");
-        printf("A árvore ainda não pode ser gerada.\n");
+        printf("A Tabela ainda não pode ser gerada.\n");
         printf("Por favor, realize primeiro o sorteio (Opção 1).\n");
         printf("****************************************************************\n");
         return; 
@@ -800,7 +845,7 @@ void listarArvoreCompleta(void) {
         return;
     }
 
-    printf("\n======================= ÁRVORE COMPLETA DO CAMPEONATO =======================\n\n");
+    printf("\n======================= TABELA COMPLETA DO CAMPEONATO =======================\n\n");
 
     int fases[] = {16, 8, 4, 2}; 
     int faseInicial;
@@ -858,7 +903,7 @@ void listarArvoreCompleta(void) {
                     for(int e=0; e<totalEquipas; e++) if(equipas[e].id == jogos[ja].id_vencedor) strcpy(nA, equipas[e].nome);
                 } else sprintf(nA, "VENCEDOR %s %d", traduzirFase(alvo*2), s*2-1);
             } else strcpy(nA, "VAGA");
-
+            
             // --- LÓGICA CORRIGIDA PARA NOMES (EQUIPA B) ---
             int idB = (idx != -1) ? jogos[idx].id_equipaB : 0;
             if (idB != 0) {
@@ -887,9 +932,8 @@ void listarArvoreCompleta(void) {
             printf("%s %s X %s %s\n", nA, placarA, nB, placarB);
         }
     }
-    
+
 
 }
-
 
 
