@@ -42,8 +42,8 @@ typedef struct {
 // --- IMPLEMENTAÇÃO DAS FUNCIONALIDADES ---
 
 void exibirRankingGeral() {
-    if (totalEquipas == 0) { 
-        printf("\nSem equipas cadastradas.\n"); 
+    if (totalEquipas == 0) {  
+        printf("\n                      Sem equipas cadastradas.\n"); 
         sleep(1);
         return; 
     }
@@ -125,7 +125,7 @@ void exibirRankingGeral() {
 
 void exibirTopPerformers() {
     if (totalEquipas < 2) { 
-        printf("\nDados insuficientes para estatísticas.\n"); 
+        printf("\n                      Dados insuficientes para estatísticas.\n"); 
         sleep(1); 
         return; 
     }
@@ -207,8 +207,8 @@ void exibirResumoCampeao() {
 
     limparTela();
     if(idCampeao == 0) {
-        printf("\n⚠️  O CAMPEONATO AINDA NÃO TEM VENCEDOR!\n");
-        printf("Realize todos os jogos até à Final para ver este relatório.\n");
+        printf("\n                     ⚠️  O CAMPEONATO AINDA NÃO TEM VENCEDOR!\n\n");
+        printf("               Realize todos os jogos até à Final para ver este relatório.\n");
         sleep(3);
         return;
     }
@@ -285,18 +285,18 @@ void menuEstatisticas() {
     int opcao;
     do {
         limparTela();
-        printf("╔══════════════════════════════════╗\n");
-        printf("║       CENTRAL DE ESTATÍSTICAS    ║\n");
-        printf("╚══════════════════════════════════╝\n\n");
-        printf("  1. Ranking Geral (Saldo/Pontos)\n");
-        printf("  2. Top Performers (Ataque/Defesa)\n");
-        printf("  3. Relatório do Campeão\n");
-        printf("  0. Voltar\n\n");
-        printf("  Selecione ➤ ");
+        printf("                       ╔══════════════════════════════════╗\n");
+        printf("                       ║       CENTRAL DE ESTATÍSTICAS    ║\n");
+        printf("                       ╚══════════════════════════════════╝\n\n");
+        printf("                       1. Ranking Geral (Saldo/Pontos)\n");
+        printf("                       2. Top Performers (Ataque/Defesa)\n");
+        printf("                       3. Relatório do Campeão\n");
+        printf("                       0. Voltar\n\n");
+        printf("                       Selecione ➤ ");
         
         while (scanf("%d", &opcao) != 1) {
             while(getchar() != '\n'); // Limpa buffer
-            printf("  Opção inválida! Tente novamente ➤ ");
+            printf("                      Opção inválida! Tente novamente ➤ ");
         }
 
         switch(opcao) {
