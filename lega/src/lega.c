@@ -30,8 +30,12 @@ void menuPrincipal()
 
     srand(time(NULL));
     limparTela();
+printf("\n");
+    printf("                                 ┓ ┏┓┏┓┏┓\n");
+    printf("                                 ┃ ┣ ┃┓┣┫\n");
+    printf("                                 ┗┛┗┛┗┛┛┗\n\n"); 
 
-    printf("\n\n");
+
     printf("╔════════════════════════════════════════════════════════════════════════════════╗\n");
     printf("║     ██▄  ▄██ ██████ ███  ██ ██  ██   ██ ███  ██ ██ ▄█████ ██ ▄████▄ ██         ║\n");
     printf("║     ██ ▀▀ ██ ██▄▄   ██ ▀▄██ ██  ██   ██ ██ ▀▄██ ██ ██     ██ ██▄▄██ ██         ║\n");
@@ -116,7 +120,7 @@ int main()
         {
             menuPrincipal();
             printf("\n\n                          Digite uma opção válida! (0 a 7)\n\n");
-            printf("                               Selecione uma opção: ");
+            printf("                          Selecione uma opção: ");
             while (getchar() != '\n');
         }
         printf("\n\n");
@@ -163,4 +167,3 @@ int main()
 
     return 0;
 }
-
