@@ -301,7 +301,7 @@ void gerirEquipas()
 }
 
 void salvarDados(void) {
-    FILE *f = fopen("data/equipas.txt", "w"); // "w" para sobrescrever o ficheiro antigo
+    FILE *f = fopen("data/teste.txt", "w"); // "w" para sobrescrever o ficheiro antigo
     if (f == NULL) {
         printf("\n[Erro] Não foi possível abrir data/equipas.txt para gravar!\n");
         return;
@@ -310,15 +310,17 @@ void salvarDados(void) {
     for (int i = 0; i < totalEquipas; i++) {
         // Usando EXATAMENTE os nomes da sua struct:
         // id;nome;isenta;golosMarcados;golosSofridos;saldoGolos;fase_eliminada
-        fprintf(f, "%d;%s;%d;%d;%d;%d;%d\n", 
+        fprintf(f, "%d;%s;%d;%d;%d;%d;%d;%d\n",
                 equipas[i].id, 
                 equipas[i].nome, 
+            equipas[i].vitorias,
                 equipas[i].isenta, 
                 equipas[i].golosMarcados, 
                 equipas[i].golosSofridos, 
                 equipas[i].saldoGolos,
                 equipas[i].fase_eliminada);
     }
+    printf("\n\n");
     printf("                         ✅ Dados salvos com sucesso!\n\n");
     sleep(2);
 
@@ -326,7 +328,7 @@ void salvarDados(void) {
 }
 
 void carregarDados(void) {
-    FILE *f = fopen("data/equipas.txt", "r");
+    FILE *f = fopen("data/teste.txt", "r");
     if (f == NULL) {
         printf("\n[Aviso] Ficheiro data/equipas.txt não encontrado. Iniciando vazio.\n");
         sleep(1);
@@ -337,9 +339,10 @@ void carregarDados(void) {
     totalEquipas = 0;
     // Lê os 7 campos exatamente como gravados no salvarDados
     // O formato %49[^;] lê o nome até encontrar o próximo ponto e vírgula
-    while (fscanf(f, "%d;%49[^;];%d;%d;%d;%d;%d\n", 
+    while (fscanf(f, "%d;%49[^;];%d;%d;%d;%d;%d;%d\n",
            &equipas[totalEquipas].id, 
-           equipas[totalEquipas].nome, 
+           equipas[totalEquipas].nome,
+        &equipas[totalEquipas].vitorias,
            &equipas[totalEquipas].isenta, 
            &equipas[totalEquipas].golosMarcados, 
            &equipas[totalEquipas].golosSofridos, 
