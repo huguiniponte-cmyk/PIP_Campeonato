@@ -6,6 +6,7 @@
 #include "equipas.h"
 #include "jogos.h"
 #include "estatisticas.h"
+#include "classificacao.h"
 #include <time.h>
 
 extern int totalEquipas;
@@ -167,3 +168,4 @@ int main()
 
     return 0;
 }
+
