@@ -39,7 +39,7 @@ void gravarResultado(void);         // Corresponde ao RF 2.2.4
 void registarProrrogacao(void);     // Corresponde ao RF 2.3
 void registarPenaltis(void);        // Corresponde ao RF 2.4
 
-// UC 1.2 - Gerir Jogos (Função Principal do Módulo)
+// Gerir Jogos (Função Principal do Módulo)
 void menuGerirJogos(void) {
     int opcao;
     int resultadoScan;
@@ -147,7 +147,7 @@ void menuGerirJogos(void) {
     } while (opcaoGestao != 0);
 }
 
-// Implementação da sequência lógica do UC 1.2.2 (RF 2.2)
+
 void registarJogos(void) {
     if (sorteioRealizado == 0) {
         printf("\n                 ⚠️ Realize o sorteio antes de registar resultados.\n");
@@ -182,13 +182,13 @@ void gerarJogosDaFase(void) {
         gravarResultado(); // Salva o estado no ficheiro
         return; // Sai da função, não há mais sorteio necessário
     }
-    // 1. Verificação de segurança (Baseado no RNF5)
+    // Verificação de segurança (Baseado no RNF5)
     if (totalEquipas < 2) {
         printf("\n[Erro] O Campeonato precisa de pelo menos 2 equipas registadas para gerar jogos (%d).\n", totalEquipas);
         return;
     }
 
-    // --- IMPLEMENTAÇÃO DA LÓGICA MATEMÁTICA (RF 2.1) ---
+    // --- IMPLEMENTAÇÃO DA LÓGICA MATEMÁTICA ---
     int alvo, numJogos, numIsentos;
 
     // Determinar o objetivo de redução para a potência de 2 (16, 8, 4 ou 2)
@@ -212,7 +212,7 @@ void gerarJogosDaFase(void) {
     printf("              Equipas Isentas: %d\n", numIsentos);
     printf("=============================================================\n");
 
-    // 2. Iniciar os Sorteios (UC 1.2.1.1 e 1.2.1.2)
+    // Iniciar os Sorteios
     srand(time(NULL)); // Inicializa a semente para sorteios aleatórios
 
     if (numIsentos > 0) {
@@ -274,7 +274,7 @@ void sortearConfrontos(void) {
         int tmp = idxJogar[i]; idxJogar[i] = idxJogar[j]; idxJogar[j] = tmp;
     }
 
-    // 1. Cria os jogos da fase inicial (ex: Oitavas 1, 2...)
+    // Cria os jogos da fase inicial (ex: Oitavas 1, 2...)
     int numJogosR1 = cJogar / 2;
     for (int i = 0; i < numJogosR1; i++) {
         jogos[totalJogos].id_jogo = totalJogos + 1;
@@ -288,7 +288,7 @@ void sortearConfrontos(void) {
         totalJogos++;
     }
 
-    // 2. LÓGICA DAS VAGAS: Coloca isentos na fase seguinte de trás para frente (Vaga 24, 23, 22...)
+    // LÓGICA DAS VAGAS: Coloca isentos na fase seguinte de trás para frente (Vaga 24, 23, 22...)
     if (faseProx != 0) {
         int numJogosProx = faseProx / 2;
         int isentasAlocadas = 0;
@@ -660,20 +660,20 @@ void atualizarEstatisticas(void) {
     int i = jogoSendoEditado;
     int idxA = -1, idxB = -1;
 
-    // 1. Localizar os índices das equipas no array global de equipas
+    // Localizar os índices das equipas no array global de equipas
     for (int j = 0; j < totalEquipas; j++) {
         if (equipas[j].id == jogos[i].id_equipaA) idxA = j;
         if (equipas[j].id == jogos[i].id_equipaB) idxB = j;
     }
 
-    // 2. Só atualiza se encontrar ambas as equipas (Segurança)
+    // Só atualiza se encontrar ambas as equipas (Segurança)
     if (idxA != -1 && idxB != -1) {
         
-        /* REGRA IMPORTANTE: 
-           Somamos apenas golosA e golosB (Tempo Normal/Prorrogação).
-           Os campos penaltisA e penaltisB são ignorados para as estatísticas de saldo,
-           servindo apenas para determinar quem avança na árvore.
-        */
+        // REGRA IMPORTANTE: 
+        //  Somamos apenas golosA e golosB (Tempo Normal/Prorrogação).
+        //  Os campos penaltisA e penaltisB são ignorados para as estatísticas de saldo,
+        //  servindo apenas para determinar quem avança na árvore.
+        
 
         // Atualização da Equipa A
         equipas[idxA].golosMarcados += jogos[i].golosA;
@@ -685,7 +685,7 @@ void atualizarEstatisticas(void) {
         equipas[idxB].golosSofridos += jogos[i].golosA;
         equipas[idxB].saldoGolos = equipas[idxB].golosMarcados - equipas[idxB].golosSofridos;
 
-        // 3. Registo da fase de eliminação (opcional para relatórios)
+        // Registo da fase de eliminação (opcional para relatórios)
         // Se a equipa perdeu, marcamos em que fase ela saiu
         if (jogos[i].id_vencedor == jogos[i].id_equipaA) {
             equipas[idxA].vitorias++; // Incrementa vitória para Equipa A
@@ -782,7 +782,7 @@ void carregarJogos(void) {
     fclose(f);
 }
 
-/* Funções auxiliares - UC extendidos */
+// Funções auxiliares - UC extendidos
 
 void registarProrrogacao(void) {
     if (jogoSendoEditado == -1) return;
@@ -935,5 +935,6 @@ void listarArvoreCompleta(void) {
 
 
 }
+
 
 
